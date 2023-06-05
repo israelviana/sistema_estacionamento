@@ -7,8 +7,8 @@ class InitializeProgram {
     }
 
     initializeProgram() {
-        const menu = "1 - ESTACIONAR CARRO\n2 - RETIRAR CARRO\n3 - CONTA DO CARRO\n4 - QUANTIDADE DE CARROS ESTACIONADOS\n5 - QUANTIDADE DE VAGAS\n6 - QUANTIDADE DE VAGAS LIVRES\n0 - FECHAR PROGRAMA"
-        console.log(menu)
+        const menu = "1 - ESTACIONAR CARRO\n 2 - RETIRAR CARRO\n 3 - CONTA DO CARRO\n 4 - QUANTIDADE DE CARROS ESTACIONADOS\n 5 - QUANTIDADE DE VAGAS\n 6 - QUANTIDADE DE VAGAS LIVRES\n 0 - FECHAR PROGRAMA"
+        console.log("-------------------------------------\n",menu,"\n-------------------------------------")
         const option = readlineSync.question('Deseja executar qual comando?\n');
         this.switchOption(option)
     }
@@ -31,15 +31,15 @@ class InitializeProgram {
                 this.initializeProgram()
                 break
             case "4":
-                console.log("quantidade de estacionados")
+                this.estacionamento.quantidadeDeEstacionados()
                 this.initializeProgram()
                 break
             case "5":
-                console.log("quantidade de vagas")
+                this.estacionamento.quantidadeDeVagas()
                 this.initializeProgram()
                 break
             case "6":
-                console.log("vagas livres")
+                this.estacionamento.quantidadeDeVagasLivres()
                 this.initializeProgram()
                 break
             default:

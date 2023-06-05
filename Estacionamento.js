@@ -1,10 +1,13 @@
 const readlineSync = require("readline-sync");
 const Carro = require('./Carro.js')
-const Time = require('./Time')
+const Time = require('./utils/Time')
+const TransformTimeInMinutos = require('./utils/TransformTimeInMinutes')
+const VerifyObject = require('./utils/VerifyExistsObjectInArray')
 
 const paraiba_regex = require('./regex/paraiba-regex')
 const pernambuco_regex = require('./regex/pernambuco-regex')
 const rio_grande_norte_regex = require('./regex/rio_grande_norte_regex')
+const InitializeProgram = require("./InitializeProgram");
 
 class Estacionamento {
 
@@ -18,14 +21,19 @@ class Estacionamento {
 
     adicionarCarro(){
         if(this.vagasLivres > 0) {
-            let timeNow = new Time()
+            const verifyObject = new VerifyObject()
             let placaCarro = readlineSync.question('Digite a placa do carro:\n')
-            //adiciona o carro no estacionamento
-            let novoCarro = new Carro(placaCarro, this.getLocal(placaCarro), timeNow.timeNowWithHoursMinutesSeconds())
-            this.arrayCarrosEstacionados.push(novoCarro)
-            //diminui a quantidade de vagas livres
-            this.vagasLivres--
-            console.log(this.arrayCarrosEstacionados, this.vagasLivres)
+            if(!verifyObject.verifyExistsObjectInArray(this.arrayCarrosEstacionados, "placa", placaCarro)){
+                let timeNow = new Time()
+                //adiciona o carro no estacionamento
+                let novoCarro = new Carro(placaCarro, this.getLocal(placaCarro), timeNow.timeNowWithHoursMinutesSeconds())
+                this.arrayCarrosEstacionados.push(novoCarro)
+                //diminui a quantidade de vagas livres
+                this.vagasLivres--
+                console.log(this.arrayCarrosEstacionados, "\nQUANTIDADE DE VAGAS LIVRES: ", this.vagasLivres)
+            }else{
+                console.log("CARRO JÁ ADICIONADO!")
+            }
         }else{
             console.log("ESTACIONAMENTO LOTADO!")
         }
@@ -48,29 +56,30 @@ class Estacionamento {
     }
 
     contaDoCarro() {
+        const transformTime = new TransformTimeInMinutos()
         let placaCarro = readlineSync.question('Digite a placa do carro:\n')
         const carroEncontrado = this.arrayCarrosEstacionadosRemovidos.find(carro => carro.placa === placaCarro)
-        const contaTempo = carroEncontrado.horarioSaiu - carroEncontrado.horarioChegou
-        if(contaTempo < 15) {
+        const tempoMinutos = transformTime.transformStringTimeInMinutes(carroEncontrado.horarioSaiu) - transformTime.transformStringTimeInMinutes(carroEncontrado.horarioChegou)
+        if(tempoMinutos < 15) {
             carroEncontrado.conta = 0
         } else {
-            const tempo = Math.ceil(contaTempo)
-            const valorConta = 2.15 * tempo
+            const tempo = Math.ceil(tempoMinutos)
+            const valorConta = 0.25 * tempo
             carroEncontrado.conta = valorConta
         }
-        console.log(carroEncontrado.conta)
+        console.log("VALOR TOTAL: ", carroEncontrado.conta)
     }
 
     quantidadeDeEstacionados(){
-        return this.tamanhoEstacionamento - this.vagasLivres
+        console.log("VAGAS OCUPADAS: ",(this.tamanhoEstacionamento - this.vagasLivres))
     }
 
     quantidadeDeVagas(){
-        return this.tamanhoEstacionamento
+        console.log("CAPACIDADE TOTAL: ", this.tamanhoEstacionamento)
     }
 
     quantidadeDeVagasLivres(){
-        return this.vagasLivres
+        console.log("VAGAS LIVRES: ", this.vagasLivres)
     }
 
     getLocal(placa) {
