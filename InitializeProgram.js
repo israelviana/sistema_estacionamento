@@ -1,5 +1,5 @@
 const readlineSync = require("readline-sync");
-const Estacionamento = require('./Estacionamento')
+const Estacionamento = require('./Park')
 
 class InitializeProgram {
     constructor() {
@@ -19,27 +19,27 @@ class InitializeProgram {
             case "0":
                 return
             case "1":
-                this.estacionamento.adicionarCarro()
+                this.estacionamento.addCar()
                 this.initializeProgram()
                 break
             case "2":
-                this.estacionamento.removerCarro()
+                this.estacionamento.removeCar()
                 this.initializeProgram()
                 break
             case "3":
-                this.estacionamento.contaDoCarro()
+                this.estacionamento.accountCar()
                 this.initializeProgram()
                 break
             case "4":
-                this.estacionamento.quantidadeDeEstacionados()
+                this.estacionamento.parkCapacityBusy()
                 this.initializeProgram()
                 break
             case "5":
-                this.estacionamento.quantidadeDeVagas()
+                this.estacionamento.capacityTotalPark()
                 this.initializeProgram()
                 break
             case "6":
-                this.estacionamento.quantidadeDeVagasLivres()
+                this.estacionamento.parkCapacityFree()
                 this.initializeProgram()
                 break
             default:

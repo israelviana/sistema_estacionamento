@@ -1,4 +1,4 @@
-class Carro {
+class Car {
     constructor(placa, local, horarioChegou, horarioSaiu, conta) {
         this.placa = placa
         this.local = local
@@ -7,4 +7,4 @@ class Carro {
         this.conta = conta
     }
 }
-module.exports = Carro;
+module.exports = Car;
